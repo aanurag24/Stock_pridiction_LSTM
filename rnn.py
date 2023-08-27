@@ -1,15 +1,15 @@
-# Recurrent Neural Network
+# Recurrent neural network modelling 
 
 
 
-# Part 1 - Data Preprocessing
 
-# Importing the libraries
+# Data Preprocessing
+
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 
-# Importing the training set
+#  training dataset
 dataset_train = pd.read_csv('Google_Stock_Price_Train.csv')
 training_set = dataset_train.iloc[:, 1:2].values
 
@@ -18,7 +18,7 @@ from sklearn.preprocessing import MinMaxScaler
 sc = MinMaxScaler(feature_range = (0, 1))
 training_set_scaled = sc.fit_transform(training_set)
 
-# Creating a data structure with 60 timesteps and 1 output
+# Creating a data structure 
 X_train = []
 y_train = []
 for i in range(60, 1258):
@@ -31,7 +31,7 @@ X_train = np.reshape(X_train, (X_train.shape[0], X_train.shape[1], 1))
 
 
 
-# Part 2 - Building the RNN
+# Part 2 - Building the Recurrent Neural Network
 
 # Importing the Keras libraries and packages
 from keras.models import Sequential
@@ -69,13 +69,13 @@ regressor.fit(X_train, y_train, epochs = 100, batch_size = 32)
 
 
 
-# Part 3 - Making the predictions and visualising the results
+# predictions and visualising the results
 
-# Getting the real stock price of 2017
+#  real stock price of 2017
 dataset_test = pd.read_csv('Google_Stock_Price_Test.csv')
 real_stock_price = dataset_test.iloc[:, 1:2].values
 
-# Getting the predicted stock price of 2017
+# predicted stock price of 2017
 dataset_total = pd.concat((dataset_train['Open'], dataset_test['Open']), axis = 0)
 inputs = dataset_total[len(dataset_total) - len(dataset_test) - 60:].values
 inputs = inputs.reshape(-1,1)
